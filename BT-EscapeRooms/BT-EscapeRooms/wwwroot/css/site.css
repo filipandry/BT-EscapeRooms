@@ -1,13 +1,20 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    overflow-x: hidden;
 }
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 0;
+    padding-right: 0;
+}
+.game-container {
+    width: 100%;
+    height: 70vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Carousel */
@@ -26,6 +33,98 @@
     margin: 15px;
 }
 
+
+
+.game {
+    width: 100%;
+    height: 70vh;
+    position: relative;
+    font-size: 0;
+}
+    .game .game-button,
+    .game .game-input {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #922626;
+        cursor: pointer;
+        display: block;
+        width: 300px;
+        transform: translate(-50%,-50%);
+        margin: 5px;
+        font-size: initial;
+        vertical-align: top;
+    }
+        .game .game-button:hover {
+            background: #922626;
+            color: #eee;
+        }
+    .game > div {
+        display: inline-block;
+        font-size: initial;
+        vertical-align: top;
+    }
+.controls,
+.info {
+    width: calc(calc(100vw - 70vh) / 2);
+    font-size: initial;
+}
+
+.game > div.controls {
+    vertical-align: bottom;
+}
+.map {
+    font-size: 0;
+    width: 70vh;
+}
+    .map > div {
+        display: inline-block;
+        border: 1px solid #000;
+        font-size: initial;
+        vertical-align: top;
+    }
+    .map.easy > div {
+        width: calc(100% / 3);
+        height: calc(70vh / 3);
+    }
+    .map.normal > div {
+        width: calc(100% / 4);
+        height: calc(70vh / 4);
+    }
+    .map.hard > div {
+        width: calc(100% / 5);
+        height: calc(70vh / 5);
+    }
+    .map .player {
+        background-color: #00a8f2;
+    }
+    .map .monster {
+        background-color: #ff6d00;
+    }
+    .map .boss {
+        background-color: #fb0000;
+    }
+    .map .healing {
+        background-color: #70cf05;
+    }
+    .map .toxic {
+        background-color: #fffa00;
+    }
+    .map .visited {
+        background-color: #333;
+    }
+.controls > span:nth-child(2),
+.controls > span:nth-child(3) {
+    width: 140px;
+    display: inline-block;
+    left: 50%;
+}
+
+.info > span {
+    display: block;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
@@ -33,3 +132,4 @@
         display: none;
     }
 }
+

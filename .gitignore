@@ -3,3 +3,6 @@
 ################################################################################
 
 /BT-EscapeRooms/.vs/BT-EscapeRooms/v15/Server/sqlite3/db.lock
+/BT-EscapeRooms/BT-EscapeRooms/bin
+/BT-EscapeRooms/BT-EscapeRooms/obj
+/BT-EscapeRooms/BT-EscapeRooms/Properties/PublishProfiles
