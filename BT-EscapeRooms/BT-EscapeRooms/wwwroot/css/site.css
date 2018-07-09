@@ -2,6 +2,13 @@
     padding-top: 50px;
     padding-bottom: 20px;
     overflow-x: hidden;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 /* Wrapping element */
@@ -35,6 +42,23 @@
 
 
 
+.game-button,
+.game-input {
+    position: relative;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #922626;
+    cursor: pointer;
+    width: 300px;
+    margin: 5px;
+    font-size: initial;
+}
+
+    .game-button:hover {
+        background: #922626;
+        color: #eee;
+    }
+
 .game {
     width: 100%;
     height: 70vh;
@@ -43,24 +67,12 @@
 }
     .game .game-button,
     .game .game-input {
-        position: relative;
+        display: block;
         top: 50%;
         left: 50%;
-        text-align: center;
-        padding: 10px;
-        border: 1px solid #922626;
-        cursor: pointer;
-        display: block;
-        width: 300px;
         transform: translate(-50%,-50%);
-        margin: 5px;
-        font-size: initial;
         vertical-align: top;
     }
-        .game .game-button:hover {
-            background: #922626;
-            color: #eee;
-        }
     .game > div {
         display: inline-block;
         font-size: initial;
@@ -70,10 +82,11 @@
 .info {
     width: calc(calc(100vw - 70vh) / 2);
     font-size: initial;
+    padding: 50px;
 }
 
 .game > div.controls {
-    vertical-align: bottom;
+    vertical-align: top;
 }
 .map {
     font-size: 0;
@@ -181,15 +194,154 @@
         background-repeat: no-repeat, no-repeat;
         background-size: contain, cover;
     }
-.controls > span:nth-child(2),
+/*.controls > span:nth-child(2),
 .controls > span:nth-child(3) {
     width: 140px;
     display: inline-block;
+    left: 50%;
+}*/
+.controls {
+    vertical-align: top;
+    padding: 50px;
+}
+.controls .game-button {
+    max-width: 200px;
+    transform: translateX(-50%);
+}
+.controls .north {
+    display: block;
+    left: 50%;
+}
+.controls .west {
+    display: inline-block;
+    left: 10%;
+    transform: none;
+}
+.controls .east {
+    display: inline-block;
+    left: 40%;
+}
+.controls .south {
+    display: block;
     left: 50%;
 }
 
 .info > span {
     display: block;
+}
+
+.info > .username::before {
+    content: 'Username: '
+}
+.info > .score::before {
+    content: 'Score: '
+}
+.info > .action::before {
+    content: 'Current action: '
+}
+.info > .lives::after {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/heart.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.info > .monster-lives::after {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/monster_heart.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.info > .toxic-potions::after {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/toxic.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.info > .healing-potions::after {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/healing.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+
+.keyboard > span {
+    display: block;
+}
+
+.keyboard-north::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/top_key.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.keyboard-west::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/left_key.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.keyboard-south::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/bottom_key.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.keyboard-east::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/right_key.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.keyboard-attack::before {
+    content: '';
+    width: 54px;
+    height: 18px;
+    background: url(../images/space_key.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.keyboard-heal::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/h_key.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+}
+.keyboard-toxic::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url(../images/t_key.png) no-repeat center center;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
 }
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
@@ -199,3 +351,30 @@
     }
 }
 
+
+
+table {
+    width: 100%;
+}
+
+td,th {
+    padding: 10px 5px;
+    border-bottom: 1px solid;
+}
+th{
+    border-top: 1px solid;
+    background-color: #ccc;
+    cursor: default;
+}
+th.sortable {
+    cursor: pointer;
+}
+
+tr:hover{
+    background: #ddd;
+}
+
+.button-playagain {
+    position: absolute;
+    background: #fff;
+}

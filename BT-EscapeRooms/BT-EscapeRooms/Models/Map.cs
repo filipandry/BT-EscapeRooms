@@ -23,6 +23,8 @@ namespace BT_EscapeRooms.Models
         public Player CurrentPlayer { get; set; }
         public Character CurrentMonster { get; set; }
 
+        public bool GameEnd { get; set; }
+
         public Map(string username, Code.Difficulty difficulty)
         {
             Username = username;
@@ -73,15 +75,19 @@ namespace BT_EscapeRooms.Models
         {
             GameMap = new IGameObject[Rows, Columns];
 
+            var rnd = new Random();
+            var healingPotions = rnd.Next(0, NumberOfHealingPotions + 1);
+            var toxicPotions = rnd.Next(0, NumberOfToxicPotions + 1);
+
+
             var objects = new List<IGameObject>();
             objects.AddRange(Enumerable.Range(0, NumberOfMonsters).Select(x => new Monster()));
-            objects.AddRange(Enumerable.Range(0, NumberOfHealingPotions).Select(x => new HealingPotion()));
-            objects.AddRange(Enumerable.Range(0, NumberOfToxicPotions).Select(x => new ToxicPotion()));
-
-            var emptySpaces = (Rows * Columns) - 2 - NumberOfMonsters - NumberOfHealingPotions - NumberOfToxicPotions;//get total of empty spaces on map
+            objects.AddRange(Enumerable.Range(0, healingPotions).Select(x => new HealingPotion()));
+            objects.AddRange(Enumerable.Range(0, toxicPotions).Select(x => new ToxicPotion()));
+            //total cells - (player + boos) - n of monsters - healing potions - toxic potions;
+            var emptySpaces = (Rows * Columns) - 2 - NumberOfMonsters - healingPotions - toxicPotions;//get total of empty spaces on map
             objects.AddRange(Enumerable.Range(0, emptySpaces).Select<int, IGameObject>(x => null));
 
-            var rnd = new Random();
 
             for (int row = 0; row < Rows; row++)
             {
@@ -101,7 +107,7 @@ namespace BT_EscapeRooms.Models
                     }
                     else
                     {
-                        var index = rnd.Next(0, objects.Count - 1);
+                        var index = rnd.Next(0, objects.Count);
                         var obj = objects[index];
                         objects.RemoveAt(index);
                         GameMap[row, col] = obj;
@@ -109,24 +115,60 @@ namespace BT_EscapeRooms.Models
                 }
             }
         }
+        public void UseHealingPotion()
+        {
+            if (GameEnd) return;
+            if (CurrentPlayer.HealingPotions == 0)
+            {
+                return;
+            }
+            CurrentPlayer.Lives = 10;
+            CurrentPlayer.HealingPotions--;
+        }
+        public void UseToxicPotion()
+        {
+            if (GameEnd) return;
+            if (CurrentMonster == null)
+            {
+                return;
+            }
+            if (CurrentMonster is BossMonster)
+            {//can be used only on normal monsters
+                return;
+            }
+            if(CurrentPlayer.ToxicPotions == 0)
+            {
+                return;
+            }
+            CurrentPlayer.ToxicPotions--;
+            CurrentMonster.Lives = 0;
+            MonsterDead();
+            CheckStatus();
+        }
         public void PlayerAttack()
         {
+            if (GameEnd) return;
             if (CurrentMonster != null)
             {
                 var damage = CurrentPlayer.Attack();
                 CurrentMonster.Lives -= damage;
-                if (CurrentMonster.Lives <= 0)
-                {
-                    CurrentPlayer.Score += ((Monster)CurrentMonster).ScoreValue;
-                    CurrentMonster = null;
-                    CurrentAction = Code.GameAction.None;
-                }
+                MonsterDead();
             }
             CheckStatus();
         }
+        public void MonsterDead()
+        {
+            if (CurrentMonster.Lives <= 0)
+            {
+                CurrentPlayer.Score += ((Monster)CurrentMonster).ScoreValue;
+                CurrentMonster = null;
+                CurrentAction = Code.GameAction.None;
+            }
+        }
         public void MonsterAttack()
         {
-            if(CurrentMonster != null)
+            if (GameEnd) return;
+            if (CurrentMonster != null)
             {
                 var damage = CurrentMonster.Attack();
                 CurrentPlayer.Lives -= damage;
@@ -134,6 +176,7 @@ namespace BT_EscapeRooms.Models
                 {
                     CurrentPlayer.Lives = 0;
                     CurrentAction = Code.GameAction.GameOver;
+                    GameEnd = true;
                 }
             }
             CheckStatus();
@@ -141,7 +184,8 @@ namespace BT_EscapeRooms.Models
 
         public void Move(string direction)
         {
-            if(CurrentMonster != null)
+            if (GameEnd) return;
+            if (CurrentMonster != null)
             {
                 if(CurrentMonster.Lives > 0)
                 {// monster still alive. cannot move
@@ -167,6 +211,7 @@ namespace BT_EscapeRooms.Models
         }
         public void ManageMove(Player player, int newRow, int newCol, int row, int col)
         {
+            if (GameEnd) return;
             CurrentAction = Code.GameAction.None;
             CurrentMonster = null;
 
@@ -203,6 +248,7 @@ namespace BT_EscapeRooms.Models
         }
         public void MoveNorth()
         {
+            if (GameEnd) return;
             for (int row = 0; row < Rows; row++)
             {
                 for (int col = 0; col < Columns; col++)
@@ -226,6 +272,7 @@ namespace BT_EscapeRooms.Models
         }
         public void MoveSouth()
         {
+            if (GameEnd) return;
             for (int row = 0; row < Rows; row++)
             {
                 for (int col = 0; col < Columns; col++)
@@ -249,6 +296,7 @@ namespace BT_EscapeRooms.Models
         }
         public void MoveWest()
         {
+            if (GameEnd) return;
             for (int row = 0; row < Rows; row++)
             {
                 for (int col = 0; col < Columns; col++)
@@ -272,6 +320,7 @@ namespace BT_EscapeRooms.Models
         }
         public void MoveEast()
         {
+            if (GameEnd) return;
             for (int row = 0; row < Rows; row++)
             {
                 for (int col = 0; col < Columns; col++)
@@ -341,6 +390,7 @@ namespace BT_EscapeRooms.Models
 
         private void CheckStatus()
         {
+            if (GameEnd) return;
             //count monsters
             var totMonsters = 0;
             if(CurrentMonster != null)
@@ -360,6 +410,7 @@ namespace BT_EscapeRooms.Models
             if(totMonsters == 0)
             {
                 CurrentAction = Code.GameAction.Victory;
+                GameEnd = true;
             }
         }
     }

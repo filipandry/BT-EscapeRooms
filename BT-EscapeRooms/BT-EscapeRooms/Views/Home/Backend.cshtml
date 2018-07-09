@@ -5,3 +5,32 @@
 
 <h2>Backend</h2>
 
+<div>
+    <h2>Search by username</h2>
+    <input class='game-input' type="text" id="txtUsernameFilter" name="txtUsernameFilter" placeholder="Username to search" />
+    <span class="game-button" id="btnSearch" name="btnSearch">SEARCH</span>
+</div>
+<table id="tblScores" class="sortable api-source" data-url="@Url.Action("Scores","Api")" data-method="GET">
+    <thead>
+        <tr>
+            <th data-source="username">Username</th>
+            <th data-source="date" data-type="date">Date</th>
+            <th data-source="difficulty">Difficulty</th>
+            <th class="sortable" data-source="points" data-type="int">Score</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div>
+    <h2>Delete user scores</h2>
+    <input class='game-input' type="text" id="txtUsernameDelete" name="txtUsernameDelete" placeholder="Username to delete" />
+    <span class="game-button" id="btnDelete" name="btnDelete">DELETE</span>
+</div>
+
+<div>
+    <h2>Update user name</h2>
+    <input class='game-input' type="text" id="txtUsernameOld" name="txtUsernameOld" placeholder="Old username" />
+    <input class='game-input' type="text" id="txtUsernameNew" name="txtUsernameNew" placeholder="New username" />
+    <span class="game-button" id="btnUpdate" name="btnUpdate">UPDATE</span>
+</div>

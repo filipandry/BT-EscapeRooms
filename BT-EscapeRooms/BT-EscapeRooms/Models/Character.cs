@@ -14,7 +14,7 @@ namespace BT_EscapeRooms.Models
         public virtual int Attack()
         {
             var rnd = new Random();
-            return rnd.Next(MinDamage, MaxDamage);
+            return rnd.Next(MinDamage, MaxDamage + 1);
         }
     }
 }

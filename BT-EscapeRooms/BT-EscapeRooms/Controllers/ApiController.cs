@@ -78,7 +78,10 @@ namespace BT_EscapeRooms.Controllers
             {
                 return NotFound();
             }
-            map.Move(direction);
+            if (!map.GameEnd)
+            {
+                map.Move(direction);
+            }
             return Json(new { User = user, Map = map.ToString(), FullMap = map });
         }
         [HttpPost("Attack")]
@@ -89,18 +92,48 @@ namespace BT_EscapeRooms.Controllers
             {
                 return NotFound();
             }
-            map.PlayerAttack();
-            map.MonsterAttack();
-            if (map.CurrentAction == GameAction.Victory || map.CurrentAction == GameAction.GameOver)
-            {//save score
-                context.Add(new Score
-                {
-                    Date = DateTime.Now,
-                    Difficulty = map.Difficulty,
-                    Points = map.CurrentPlayer.Score,
-                    Username = map.CurrentPlayer.Username
-                });
-                context.SaveChanges();
+            if (!map.GameEnd)
+            {
+                map.PlayerAttack();
+                map.MonsterAttack();
+                if (map.CurrentAction == GameAction.Victory || map.CurrentAction == GameAction.GameOver)
+                {//save score
+                    SaveScore(map);
+                }
+            }
+
+            return Json(new { User = user, Map = map.ToString(), FullMap = map });
+        }
+        [HttpPost("AttackWithPotion")]
+        public ActionResult AttackWithPotion(Guid user)
+        {
+            var map = state.GetGame(user);
+            if (map == null)
+            {
+                return NotFound();
+            }
+            if (!map.GameEnd)
+            {
+                map.UseToxicPotion();
+                if (map.CurrentAction == GameAction.Victory || map.CurrentAction == GameAction.GameOver)
+                {//save score
+                    SaveScore(map);
+                }
+            }
+
+            return Json(new { User = user, Map = map.ToString(), FullMap = map });
+        }
+        [HttpPost("Heal")]
+        public ActionResult Heal(Guid user)
+        {
+            var map = state.GetGame(user);
+            if (map == null)
+            {
+                return NotFound();
+            }
+            if (!map.GameEnd)
+            {
+                map.UseHealingPotion();
             }
 
             return Json(new { User = user, Map = map.ToString(), FullMap = map });
@@ -109,6 +142,19 @@ namespace BT_EscapeRooms.Controllers
         public ActionResult Name()
         {
             return Json(HttpContext.User.Identity.IsAuthenticated);
+        }
+
+
+        private void SaveScore(Map map)
+        {
+            context.Add(new Score
+            {
+                Date = DateTime.Now,
+                Difficulty = map.Difficulty,
+                Points = map.CurrentPlayer.Score,
+                Username = map.CurrentPlayer.Username
+            });
+            context.SaveChanges();
         }
     }
 }
