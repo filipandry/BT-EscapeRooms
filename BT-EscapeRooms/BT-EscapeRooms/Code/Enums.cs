@@ -29,5 +29,8 @@ namespace BT_EscapeRooms.Code
         FightBossMonster = 2,
         GameOver = 3,
         Victory = 4,
+        AlreadyVisited = 5,
+        PickHealingPotion = 6,
+        PickToxicPotion = 7
     }
 }

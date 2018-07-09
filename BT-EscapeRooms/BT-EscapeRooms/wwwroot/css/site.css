@@ -84,6 +84,10 @@
         border: 1px solid #000;
         font-size: initial;
         vertical-align: top;
+        background-image: url(../images/normal.png);
+        background-position:center center;
+        background-repeat:no-repeat;
+        background-size: cover;
     }
     .map.easy > div {
         width: calc(100% / 3);
@@ -98,22 +102,84 @@
         height: calc(70vh / 5);
     }
     .map .player {
-        background-color: #00a8f2;
+        background-image: url(../images/walk.png), url(../images/normal.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
     }
     .map .monster {
-        background-color: #ff6d00;
+        background-image: url(../images/monster1.png), url(../images/normal.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
     }
+
     .map .boss {
-        background-color: #fb0000;
+        background-image: url(../images/boss.png), url(../images/normal.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
     }
     .map .healing {
-        background-color: #70cf05;
+        background-image: url(../images/healing.png), url(../images/normal.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
     }
     .map .toxic {
-        background-color: #fffa00;
+        background-image: url(../images/toxic.png), url(../images/normal.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
     }
     .map .visited {
-        background-color: #333;
+        background-image: url(../images/visited.png);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .map .player.monster {
+        background-image: url(../images/attack.png), url(../images/monster1.png), url(../images/vs.png);
+        background-position: left top, right bottom, center center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+        background-size: 40%, 40%, cover;
+    }
+    .map .player.boss {
+        background-image: url(../images/attack.png), url(../images/boss.png), url(../images/vs.png);
+        background-position: left top, right bottom, center center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+        background-size: 40%, 40%, cover;
+    }
+    .map .player.healing {
+        background-image: url(../images/walk.png), url(../images/healing.png), url(../images/normal.png);
+        background-position: left top, right bottom, center center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+        background-size: 40%, 40%, cover;
+    }
+    .map .player.toxic {
+        background-image: url(../images/walk.png), url(../images/toxic.png), url(../images/normal.png);
+        background-position: left top, right bottom, center center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+        background-size: 40%, 40%, cover;
+    }
+    .map .player.visited {
+        background-image: url(../images/walk.png), url(../images/visited.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
+    }
+    .map .player.win {
+        background-image: url(../images/win.png), url(../images/visited.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
+    }
+    .map .player.gameover {
+        background-image: url(../images/gameover.png), url(../images/visited.png);
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-size: contain, cover;
     }
 .controls > span:nth-child(2),
 .controls > span:nth-child(3) {

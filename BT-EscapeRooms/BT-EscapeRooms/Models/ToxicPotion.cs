@@ -9,7 +9,6 @@ namespace BT_EscapeRooms.Models
     {
         public ToxicPotion()
         {
-            CanSave = true;
         }
     }
 }

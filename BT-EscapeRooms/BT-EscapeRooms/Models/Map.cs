@@ -173,6 +173,7 @@ namespace BT_EscapeRooms.Models
             switch (GameMap[newRow, newCol])
             {
                 case VisitedPlace visited:
+                    CurrentAction = Code.GameAction.AlreadyVisited;
                     //do nothing
                     break;
                 case BossMonster boss:
@@ -184,16 +185,13 @@ namespace BT_EscapeRooms.Models
                     CurrentMonster = monster;
                     break;
                 case HealingPotion healing:
-                    player.Score++;
+                    CurrentAction = Code.GameAction.PickHealingPotion;
+                    //player.Score++;
                     player.HealingPotions++;
-                    if (!healing.CanSave)
-                    {
-                        player.Lives = 10;
-                        player.HealingPotions--;
-                    }
                     break;
                 case ToxicPotion toxic:
-                    player.Score++;
+                    CurrentAction = Code.GameAction.PickToxicPotion;
+                    //player.Score++;
                     player.ToxicPotions++;
                     break;
                 case null:

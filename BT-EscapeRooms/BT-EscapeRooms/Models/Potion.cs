@@ -7,6 +7,5 @@ namespace BT_EscapeRooms.Models
 {
     public class Potion : IGameObject
     {
-        public bool CanSave { get; set; }
     }
 }

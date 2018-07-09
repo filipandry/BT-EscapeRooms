@@ -17,7 +17,7 @@ namespace BT_EscapeRooms.Models
         {
             Lives = 10;
             MinDamage = 1;
-            MaxDamage = 5;
+            MaxDamage = 3;
         }
     }
 }

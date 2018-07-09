@@ -16,6 +16,29 @@ $(document).on("ready", function () {
         button.on('click', newGame);
 
         game.append(button)
+
+        $(document).on('keydown', function (e) {
+            console.log(e);
+            switch (e.which) {
+                case 32: // space
+                    Attack();
+                    break;
+                case 37: // left
+                    MoveTo("W");
+                    break;
+                case 38: // up
+                    MoveTo("N");
+                    break;
+                case 39: // right
+                    MoveTo("E");
+                    break;
+                case 40: // down
+                    MoveTo("S");
+                    break;
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault();
+        });
     }
 
     function newGame(e) {
@@ -73,20 +96,7 @@ $(document).on("ready", function () {
             case 1:
             case 2:
                 btnAttack = $("<span class='game-button'>ATTACK</span>");
-                btnAttack.on('click', function () {
-                    $.ajax({
-                        url: '/api/Attack',
-                        method: "POST",
-                        data: {
-                            user: UserID,
-                        },
-                        success: function (result) {
-                            game.empty();
-                            UserID = result.user;
-                            DrawMap(result);
-                        }
-                    });
-                });
+                btnAttack.on('click', Attack);
                 break;
             case 3:
                 return divController;
@@ -124,6 +134,20 @@ $(document).on("ready", function () {
         }
 
         return divController;
+    }
+    function Attack() {
+        $.ajax({
+            url: '/api/Attack',
+            method: "POST",
+            data: {
+                user: UserID,
+            },
+            success: function (result) {
+                game.empty();
+                UserID = result.user;
+                DrawMap(result);
+            }
+        });
     }
     function getInfos(result) {
         var divInfo = $("<div class='info' />");
@@ -177,11 +201,35 @@ $(document).on("ready", function () {
         var map = result.map;
         var divMap = $("<div class='map " + difficultyName.toLowerCase() + "' />");
         var gameMap = map.split('\r\n');
+        var playerExtraClass = "";
+        switch (result.fullMap.currentAction) {
+            case 1:
+                playerExtraClass = "monster";
+                break;
+            case 2:
+                playerExtraClass = "boss";
+                break;
+            case 3:
+                playerExtraClass = "gameover";
+                break;
+            case 4:
+                playerExtraClass = "win";
+                break;
+            case 5:
+                playerExtraClass = "visited";
+                break;
+            case 6:
+                playerExtraClass = "healing";
+                break;
+            case 7:
+                playerExtraClass = "toxic";
+                break;
+        }
         gameMap.forEach(function (row) {
             row.split('').forEach(function (col) {
                 switch (col) {
                     case "P":
-                        divMap.append($("<div class='player' />"));
+                        divMap.append($("<div class='player " + playerExtraClass+"' />"));
                         break;
                     case "B":
                         divMap.append($("<div class='boss' />"));

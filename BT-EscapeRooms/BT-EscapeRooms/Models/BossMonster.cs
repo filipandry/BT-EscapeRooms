@@ -10,7 +10,7 @@ namespace BT_EscapeRooms.Models
         public BossMonster()
         {
             ScoreValue = 10;
-            Lives = 10;
+            Lives = 5;
             MinDamage = 1;
             MaxDamage = 5;
         }
